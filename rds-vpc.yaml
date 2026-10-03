@@ -1,0 +1,58 @@
+#Description of what this change includes
+#Revision number
+#Date
+AWSTemplateFormatVersion: '2010-09-09'
+Description: ECPI AWS VPC spanning three Availability Zones
+
+Resources:
+
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: VPC-sheham2407
+
+  AvailabilityZone1Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: us-west-2a
+      CidrBlock: 10.0.1.0/24
+      Tags:
+        - Key: Name
+          Value: VPC-sheham2407-Subnet-A
+
+  AvailabilityZone2Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: us-west-2b
+      CidrBlock: 10.0.2.0/24
+      Tags:
+        - Key: Name
+          Value: VPC-sheham2407-Subnet-B
+
+  AvailabilityZone3Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: us-west-2c
+      CidrBlock: 10.0.3.0/24
+      Tags:
+        - Key: Name
+          Value: VPC-sheham2407-Subnet-C
+  RdsInstance:
+     Type: AWS::RDS::DBInstance
+     Properties:
+      VPCSecurityGroups:
+      - <SECURITY-GROUP-ID>
+      AllocatedStorage: '5'
+      DBInstanceClass: db.t3.micro
+      DBInstanceIdentifier: playground-db
+      Engine: MySQL
+      MasterUsername: Admin
+      MasterUserPassword: CloudAcademy123! 
